@@ -11,8 +11,8 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_PASSWORD=q7963q
-      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=
+      - POSTGRES_USER=
       - POSTGRES_DB=deliverydb
     networks:
       - delivery-network
