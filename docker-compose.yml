@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  delivery_postgres:
+    image: postgres:13.1-alpine
+    container_name: delivery_postgres
+    #volumes:
+    #  - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=q7963q
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=deliverydb
+    networks:
+      - delivery-network
+
+  delivery_api:
+    image: delivery_api:0.1
+    build:
+      context: ./
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://delivery_postgres:5432/deliverydb
+    depends_on:
+      - delivery_postgres
+    container_name: delivery_api
+    expose:
+      - "8080"
+    ports:
+      - "8080:8080"
+    networks:
+      - delivery-network
+
+volumes:
+  postgres-data: {}
+
+networks:
+  delivery-network:
+    driver: bridge
